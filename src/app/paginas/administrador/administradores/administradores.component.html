@@ -1,0 +1,175 @@
+
+  <app-header-administrador></app-header-administrador>
+
+  <div class="container">
+    <div class="row">
+      <p class="col-6">usuario: {{usuario.nombre}}</p>
+      <div class="col-6 search-box">
+        <input type="text" placeholder="Buscar por código" [formControl]="codigo">
+        <fa-icon [icon]="faSearch" [ngClass]="{'disabled': codigo.invalid, 'enabled': codigo.valid}" (click)="obtenerPorCodigo()"> </fa-icon>
+      </div>
+    </div>
+
+    <form class="row" [formGroup]="administrador" >
+      <select class="col-3" formControlName="activo" (change)="filtrarAdministradores()">
+        <option value="1">Activos</option>
+        <option value="2">Inactivos</option>
+      </select>
+    </form>
+
+    <div class="row">
+      <div class="col-6"> <h1>Administradores</h1></div>
+      <div class="col-6" style="text-align: end;"> <button id="principal" class="btn btnPilarh" (click)="agregarAdministrador(modalAgregarAdministrador)">Agregar Administrador</button> </div>
+    </div>
+
+    <div class="contenido padre" *ngIf="!load">
+      <div class="hijo">
+        <app-loading></app-loading>
+      </div>
+    </div>
+
+    <div class="contenido" *ngIf="resultados==false && load">
+      <h2>Lo sentimos, no hemos encontrado resultados.</h2>
+    </div>
+
+    <div class="contenido" *ngIf="resultados==true && load">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Código</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Correo</th>
+            <th scope="col"> </th>
+            <th scope="col" *ngIf="usuario.id_rol==1"> </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let admin of administradores
+                  | paginate: { id: 'foo',
+                                itemsPerPage: 10,
+                                currentPage: page }">
+            <th class="cod" scope="row">{{admin.codigo_usuario}}</th>
+            <td>{{admin.nombre}}</td>
+            <td>{{admin.correo}}</td>
+            <td *ngIf="admin.inactivo==null &&(usuario.id_rol==1 || usuario.id_usuario==admin.id_usuario)" title="Editar Administrador" (click)="editarAdministrador(admin,modalEditarAdministrador)">
+              <fa-icon class="pen" [icon]="faPen"> </fa-icon> </td>
+              <td *ngIf="admin.inactivo==null &&(usuario.id_rol!=1 &&usuario.id_usuario!=admin.id_usuario)" title="Editar Administrador" (click)="editarAdministrador(admin,modalEditarAdministrador)">
+              </td>
+            <td *ngIf="admin.inactivo==null && usuario.id_rol==1" title="Inhabilitar Administrador" (click)="habAdmin(admin, modalHabAdministrador)">
+                <fa-icon class="trash" [icon]="faTrash"> </fa-icon>
+            </td>
+            <td *ngIf="admin.inactivo!=null && usuario.id_rol==1" title="Habilitar Administrador" (click)="habAdmin(admin, modalHabAdministrador)">
+                <fa-icon class="pen" [icon]="faArrow"> </fa-icon>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <pagination-controls *ngIf="administradores.length>9" style="display: 'block';"
+        class = "custom-pagination"
+        id="foo"
+        (pageChange)="page = ($event)"
+        previousLabel="Anterior"
+        nextLabel="Siguiente">
+      </pagination-controls>
+      <pagination-controls *ngIf="administradores.length<=9" style="display: 'none';"
+        id="foo"
+        (pageChange)="page = ($event)"
+        previousLabel="Anterior"
+        nextLabel="Siguiente">
+      </pagination-controls>
+    </div>
+  </div>
+
+
+<!-- Modal Agregar Administrador -->
+<ng-template #modalAgregarAdministrador let-modal>
+  <div class="modal-header" style="background-color: #326535;">
+    <h3 class="modal-title" id="modal-basic-title" style="color: #fff">Agregar Administrador</h3>
+    <button  type="button" class="btn close" (click)="modal.close('Cerrar')" aria-label="Close">
+      <div aria-hidden="true">&times;</div>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form class="form-control" [formGroup]="newAdministrador" >
+      <div class="form-control">
+        <b>Código de usuario: </b><input  formControlName="cod_usuario" placeholder="ejm: JPEREZ">
+      </div>
+      <span *ngIf="this.newAdministrador.get('cod_usuario')?.touched && this.newAdministrador.get('cod_usuario')?.invalid">
+        (El código de usuario no puede tener mas de 20 caracteres, ni contener números, ni espacios)
+      </span>
+      <div class="form-control">
+        <b>Nombre: </b><input  formControlName="nombre" placeholder="ejm: Juan Perez">
+      </div>
+      <span *ngIf="this.newAdministrador.get('nombre')?.touched && this.newAdministrador.get('nombre')?.invalid">
+        (Los nombres y apellidos no puede contener números)
+      </span>
+      <div class="form-control">
+        <b>Correo: </b>
+        <input formControlName="correo" placeholder="ejm: jperez@pilarh-opdf">
+      </div>
+      <span *ngIf="this.newAdministrador.get('correo')?.touched && this.newAdministrador.get('correo')?.invalid">
+        (Escriba una dirección de correo válida)
+      </span>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button id="cancelar" class="btn btnPilarh2"  (click)="modal.close('Cerrar')">Cancelar</button>
+    <button [ngClass]="{'disabled': newAdministrador.invalid, 'enabled': newAdministrador.valid  }" id="principal" class="btn btnPilarh"  (click)="guardarAdmin(newAdministrador.value)" >Guardar</button><br>
+  </div>
+</ng-template>
+
+
+<!-- Modal Editar Administrador -->
+<ng-template #modalEditarAdministrador let-modal>
+  <div class="modal-header" style="background-color: #326535;">
+    <h3 class="modal-title" id="modal-basic-title" style="color: #fff">Editar Administrador</h3>
+    <button  type="button" class="btn close" (click)="modal.close('Cerrar')" aria-label="Close">
+      <div aria-hidden="true">&times;</div>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form class="form-control" [formGroup]="editAdministrador" >
+      <div class="form-control">
+        <b>Código de usuario: </b>{{this.editAdministrador.get('cod_usuario')?.value}}
+      </div>
+      <div class="form-control">
+        <b>Nombre: </b><input  formControlName="nombre" >
+      </div>
+      <span *ngIf="this.editAdministrador.get('nombre')?.invalid">
+        (Los nombres y apellidos no puede contener números)
+      </span>
+      <div class="form-control">
+        <b>Correo: </b><input formControlName="correo" >
+      </div>
+      <span *ngIf="this.editAdministrador.get('correo')?.invalid">
+        (Escriba una dirección de correo válida)
+      </span>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button id="cancelar" class="btn btnPilarh2"  (click)="modal.close('Cerrar')">Cancelar</button>
+    <button [ngClass]="{'disabled': (editAdministrador.invalid || objCompare(editAdministrador.value, datosAdmin)), 'enabled': (editAdministrador.valid ||  editAdministrador.touched)}" id="principal" class="btn btnPilarh"  (click)="confirmarEdicion(editAdministrador.value)" >Confirmar</button><br>
+  </div>
+</ng-template>
+
+
+<!-- Modal Habilitar Administrador -->
+<ng-template #modalHabAdministrador let-modal>
+  <div class="modal-header" style="background-color: #326535;">
+    <h3 *ngIf="habilitado.inactivo==null" class="modal-title" id="modal-basic-title" style="color: #fff">Inhabilitar Empleado</h3>
+    <h3 *ngIf="habilitado.inactivo!=null" class="modal-title" id="modal-basic-title" style="color: #fff">Habilitar Empleado</h3>
+    <button  type="button" class="btn close" (click)="modal.close('Cerrar')" aria-label="Close">
+      <div aria-hidden="true">&times;</div>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="form-control"><b>Código de usuario: </b> {{habilitado.codigo_usuario}} </div>
+    <div class="form-control"><b>Nombre: </b>{{habilitado.nombre}}</div>
+    <div class="form-control"><b>Correo: </b>{{habilitado.correo}}</div>
+  </div>
+  <div class="modal-footer">
+    <button id="cancelar" class="btn btnPilarh2"  (click)="modal.close('Cerrar')">Cancelar</button>
+    <button *ngIf="habilitado.inactivo==null" id="principal" class="btn btnPilarh"  (click)="inhabilitarAdministrador(habilitado)" >Inhabilitar</button><br>
+    <button *ngIf="habilitado.inactivo!=null" id="principal" class="btn btnPilarh"  (click)="habilitarAdministrador(habilitado)" >Habilitar</button><br>
+  </div>
+</ng-template>

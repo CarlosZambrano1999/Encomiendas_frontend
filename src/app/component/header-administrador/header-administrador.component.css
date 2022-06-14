@@ -1,0 +1,192 @@
+#opciones {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: space-around;
+	align-items: center ;
+	align-content: center;
+}
+
+#cerrar{
+  font-size: 30px;
+  color: #A02A2A;
+}
+
+.boton{
+  border-radius: 15px;
+  background-color: #ffffff;
+  margin: 5px 0px;
+}
+/*menu*/
+
+#menu{
+  width:100%;
+  background-color: #faf4f4
+}
+#menu ul {
+  list-style:none;
+  margin:0;
+  padding:0;
+}
+
+  /* items del menu */
+
+#menu ul li {
+  background-color:#ffffff;
+}
+
+.transp{
+  background-color: transparent!important;
+}
+
+  /* items del menu */
+
+#menu ul li {
+  position:relative;
+  float:left;
+  margin:0;
+  padding:0;
+}
+
+  /* efecto al pasar el ratón por los items del menu */
+
+#menu ul ul li button:hover {
+  background:#D9D3D3;
+}
+
+.linkActivo {
+  background:#d3d3d3;
+}
+
+  /* menu desplegable */
+
+  #menu ul ul {
+  display:none;
+  position:absolute;
+  top:100%;
+  left:0;
+  background:#eee;
+  padding:0;
+}
+
+  /* items del menu desplegable */
+
+  #menu ul ul li {
+  float:none;
+  width:150px;
+}
+
+  /* enlaces de los items del menu desplegable */
+
+  #menu ul ul a {
+  line-height:120%;
+  padding:10px 15px;
+}
+
+  /* items del menu desplegable al pasar el ratón */
+
+  #menu ul li:hover > ul {
+  display:block;
+}
+
+input#abrir-cerrar {
+  visibility:hidden;
+  position: absolute;
+  top: -9999px;
+}
+
+.toggle-button {
+  display:block;
+  width:50px;
+  height:50px;
+  border:1px solid black;
+  position:relative;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.toggle-button:before, .toggle-button:after {
+  position:absolute;
+  display:block;
+  content:" ";
+  width: calc(100% / 2);
+  box-sizing: border-box;
+  left: calc(100% / 4);
+  transition: all 0.2s ease-out;
+}
+
+.toggle-button:before {
+  top: calc(100% / 4);
+  height:calc(100% / 4);
+  border-top:1px solid black;
+  border-bottom:1px solid black;
+  background-color: transparent;
+}
+
+.toggle-button:after {
+  height:1px;
+  background-color:black;
+  bottom:calc(100% / 4);
+}
+
+
+.abrir {
+  position:absolute;
+  top:0;
+  right:0;
+  bottom:0;
+  left:0;
+  text-indent: -9999px;
+}
+
+.abrir {
+  display:block;
+}
+
+input#abrir-cerrar:checked + .toggle-button .abrir {
+  display:none;
+}
+
+input#abrir-cerrar:checked + .toggle-button .cerrar {
+  display:block;
+}
+
+.close{
+  border: 0px;
+}
+
+#cerrar:hover{
+  color: #f00;
+}
+
+@media (max-width: 576px) {
+  #cerrar{
+    font-size: 10px;
+  }
+
+  #logo{
+    width:60%;
+  }
+
+  .toggle-button{
+    margin: 10px 30px;
+    height: 35px;
+    width: 35px;
+  }
+}
+
+@media (min-width: 576px) and (max-width: 768px) {
+  #cerrar{
+    font-size: 20px;
+  }
+
+  #logo{
+    width:70%;
+  }
+
+  .toggle-button{
+    margin: 10px 30px;
+    height: 35px;
+    width: 35px;
+  }
+}

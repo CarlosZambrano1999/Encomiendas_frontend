@@ -1,0 +1,102 @@
+
+  <app-header-usuarios></app-header-usuarios>
+
+  <main *ngIf="!load" class="container">
+    <div class="centrar padre" *ngIf="!load">
+      <div class="hijo">
+        <app-loading></app-loading>
+      </div>
+    </div>
+  </main>
+
+  <main class="container" *ngIf="load">
+    <div>
+      <h5>¡Hola {{usuario.nombre}}!</h5>
+      <h5>{{usuario.agencia}}</h5>
+    </div>
+
+    <div>
+      <h5>Para registrar una encomienda llena los siguientes datos...</h5>
+    </div>
+
+    <div class="contenido">
+      <form [formGroup]="encomienda">
+        <div class="row">
+          <label class="col-6 col-xs-6 col-md-4 col-lg-3 col-xl-3">Enviar a:</label>
+          <select class="col-5 col-xs-5 col-md-4 col-lg-4 col-xl-4" formControlName="agencia_receptora">
+            <option *ngFor="let agencia of agencias" value="{{agencia.id_agencia}}"> {{agencia.nombre}}</option>
+          </select>
+        </div>
+        <div class="row">
+          <label class="col-6 col-xs-6 col-md-4 col-lg-3 col-xl-3" >Empresa:</label>
+          <input formControlName="empresa" class="col-5 col-xs-5 col-md-4 col-lg-4 col-xl-4" type="text" placeholder="ejm Lenca Express">
+        </div>
+        <div class="row">
+          <label class="col-6 col-xs-6 col-md-4 col-lg-3 col-xl-3" >Chofer:</label>
+          <input formControlName="chofer" class="col-5 col-xs-5 col-md-4 col-lg-4 col-xl-4" type="text" placeholder="ejm Juan Perez">
+        </div>
+        <div class="row">
+          <label class="col-6 col-xs-6 col-md-4 col-lg-3 col-xl-3" >#Teléfono del chofer:</label>
+          <input formControlName="telefono_chofer" class="col-5 col-xs-5 col-md-4 col-lg-4 col-xl-4" type="text" placeholder="ejm 999999999">
+        </div>
+        <div class="row">
+          <label class="col-6 col-xs-6 col-md-4 col-lg-3 col-xl-3" >Descripción de Transporte:</label>
+          <textarea formControlName="descr_trans" class="col-5 col-xs-5 col-md-4 col-lg-4 col-xl-4" cols="15" rows="3" placeholder="Especifica el color y/o número de bus"></textarea>
+        </div>
+        <span *ngIf="this.encomienda.get('chofer')?.untouched || this.encomienda.get('telefono_chofer')?.untouched || this.encomienda.get('descr_trans')?.untouched" style="color: black;">
+          El campo  Chofer, #Teléfono del chofer y Descripción del transporte no son obligatorios, pero se recomienda llenarlos
+        </span>
+        <div class="row">
+          <label class="col-6 col-xs-6 col-md-4 col-lg-3 col-xl-3" >Fecha de salida: </label>
+          <input formControlName="fecha_envio" class="col-5 col-xs-5 col-md-4 col-lg-4 col-xl-4" type="date" value="{{this.fechaAct}}" min="{{this.fechaMin}}" max="{{this.fechaMax}}">
+        </div>
+        <div class="row">
+          <label class="col-6 col-xs-6 col-md-4 col-lg-3 col-xl-3" >Hora de salida:</label>
+          <input formControlName="hora_envio" class="col-5 col-xs-5 col-md-4 col-lg-4 col-xl-4" atp-time-picker placeholder="ejm 08:00">
+        </div>
+        <div class="row">
+          <label class="col-6 col-xs-6 col-md-4 col-lg-3 col-xl-3" >Fecha de llegada:</label>
+          <input formControlName="fecha_llegada" class="col-5 col-xs-5 col-md-4 col-lg-4 col-xl-4" type="date" min="{{this.fechaAct}}" max="{{this.fechaMax}}">
+        </div>
+        <div class="row">
+          <label class="col-6 col-xs-6 col-md-4 col-lg-3 col-xl-3" >Hora de llegada:</label>
+          <input formControlName="hora_llegada" class="col-5 col-xs-5 col-md-4 col-lg-4 col-xl-4" atp-time-picker placeholder="ejm 12:00">
+        </div>
+        <div class="row">
+          <label class="col-6 col-xs-6 col-md-4 col-lg-3 col-xl-3" >Descripción del paquete:</label>
+          <textarea formControlName="descripcion" class="col-5 col-xs-5 col-md-4 col-lg-4 col-xl-4" cols="15" rows="3" placeholder="Espicifique si envía caja, bolsa o sobre, y algotra descripción que crea conveniente"></textarea>
+        </div>
+        <div style="text-align: center;">
+          <button [ngClass]="{'disabled': encomienda.invalid, 'enabled': encomienda.valid}" id="principal" class="btn btnPilarh" (click)="enviar(modalRealizarEnvio)">Realizar envío</button>
+        </div>
+      </form>
+    </div>
+  </main>
+
+<!-- Modal para confirmar envio -->
+<ng-template #modalRealizarEnvio let-modal>
+  <div class="modal-header" style="background-color: #326535;">
+    <h4 class="modal-title" id="modal-basic-title" style="color: #fff;">Detalles de encomienda</h4>
+    <button type="button" class="close btn" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <div aria-hidden="true">&times;</div>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="modal-body">
+          <p> <b>De:</b> {{ usuario.agencia }}</p>
+          <p> <b>Para:</b> {{agencia_receptora.nombre}}</p>
+          <p> <b>Enviado por:</b> {{ usuario.nombre }}; {{usuario.correo}}</p>
+          <p> <b>Empresa:</b> {{ encomienda.get('empresa')?.value }}</p>
+          <p> <b>Chofer:</b> {{ encomienda.get('chofer')?.value }}</p>
+          <p> <b>#Telefono del Chofer:</b> {{ encomienda.get('telefono_chofer')?.value }}</p>
+          <p> <b>Descripción de transporte: </b>{{ encomienda.get('descr_trans')?.value}}</p>
+          <p> <b>Fecha y hora de salida:</b> {{ encomienda.get('fecha_envio')?.value}} {{ encomienda.get('hora_envio')?.value }}</p>
+          <p> <b>Fecha y hora de llegada:</b> {{ encomienda.get('fecha_llegada')?.value }} {{ encomienda.get('hora_llegada')?.value }}</p>
+          <p> <b>Descripción:</b> {{ encomienda.get('descripcion')?.value }}</p>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button id="cancelar" type="button" class="btn btn-outline-dark" (click)="modal.close('Cerrar')">Cerrar</button>
+    <button id="principal" class="btn btnPilarh" (click)="confirmar()">Confirmar envío</button>
+  </div>
+</ng-template>

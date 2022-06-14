@@ -1,0 +1,37 @@
+<nav id="menu" class="bg">
+  <ul id="opciones">
+    <li>
+      <input id="abrir-cerrar" name="abrir-cerrar" type="checkbox" value="" />
+        <label for="abrir-cerrar" class="toggle-button">
+            <span class="abrir" title="Abrir">Abrir</span>
+        </label>
+      <ul>
+        <li><button id="usuarios" class="btn boton"   type="submit" routerLink="/users" routerLinkActive="linkActivo">Usuarios</button></li>
+        <li><button id="admin" class="btn boton"   type="submit" routerLink="/administrators" routerLinkActive="linkActivo">Administradores</button></li>
+        <li><button id="agencias" class="btn boton"   type="submit" routerLink="/agencies" routerLinkActive="linkActivo" > Agencias</button></li>
+        <li><button id="Encomiendas" class="btn boton"   type="submit" routerLink="/parcels" routerLinkActive="linkActivo">Encomiendas</button></li>
+      </ul>
+    </li>
+    <li class="transp" style="text-align: center;">
+      <img id="logo" class="img-fluid" src="../../../assets/img/Logo-PILARH.png" alt="Logo pilarh">
+    </li>
+    <li class="transp"><button class="transp btn close" (click)="cerrarSesion(modalCerrarSesion)"><h1 id="cerrar">CERRAR SESION</h1></button ></li>
+  </ul>
+</nav>
+
+<!-- Modal Cerrar Sesion -->
+<ng-template #modalCerrarSesion let-modal>
+  <div class="modal-header" style="background-color: #A02A2A;">
+    <h3 class="modal-title" id="modal-basic-title" style="color: #fff">Cerrando Sesión</h3>
+    <button  type="button" class="btn close" (click)="modal.close('Cerrar')" aria-label="Close">
+      <div aria-hidden="true">&times;</div>
+    </button>
+  </div>
+  <div class="modal-body">
+    <h3>¿Está seguro que desea salir?</h3>
+  </div>
+  <div class="modal-footer">
+    <button id="cancelar" class="btn btnPilarh2"  (click)="modal.close('Cerrar')">Cancelar</button>
+    <button id="salir" class="btn btnPilarh3"  (click)="salir()" >Salir</button><br>
+  </div>
+</ng-template>

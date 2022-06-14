@@ -1,0 +1,125 @@
+.custom-pagination ::ng-deep .ngx-pagination li span {
+  color: #0F0;
+  font-size: large;
+}
+
+.custom-pagination ::ng-deep .ngx-pagination .current {
+  background: #326535;
+}
+
+select{
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: 2px solid #326535;
+  background-color: none;
+  font-family: montse-medium;
+  width:min-content;
+  margin-right: 10px;
+  margin-top: 10px;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  overflow: hidden;
+  outline: none;
+}
+
+option{
+  font-family: montse-ligth!important;
+}
+
+table{
+  font-size: 15px;
+  margin-top: 2%;
+}
+
+thead{
+  background-color:  #E3F59B;
+  font-family: montse-bold;
+}
+
+tbody{
+  background-color:  #a9e159;
+  font-family: montse-medium!important;
+}
+
+tr{
+  border-bottom: 1px solid #326535;
+}
+
+.cod{
+  font-family: montse-medium;
+  border-bottom: 1px solid #326535;
+}
+
+th{
+  border-bottom: 3px solid #326535;
+}
+
+.pen{
+  color: #7D7777;
+}
+
+h1 {
+  font-family: montse-bold;
+  margin: 20px 0px;
+}
+
+h2 {
+  font-family: montse-bold;
+  margin: 20px 0px;
+  color: #7D7777;
+}
+
+.trash{
+  color: #A02A2A;
+}
+
+.modal-body input, textarea{
+  width: inherit;
+}
+
+input{
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: 2px solid #326535;
+  background-color: none;
+  font-family: montse-ligth;
+  width:min-content;
+  margin-right: 10px;
+  margin-top: 10px;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  overflow: hidden;
+  outline: none;
+}
+@media (max-width: 576px) {
+  option{
+    font-size: 10px;
+  }
+
+  table{
+    font-size: xx-small;
+  }
+
+  h1, h2{
+    font-size: medium;
+  }
+
+}
+
+@media (min-width: 576px) and (max-width: 768px) {
+  option{
+    font-size: 15px;
+  }
+
+  table{
+    font-size: 15px;
+  }
+
+  h1, h2{
+    font-size: medium;
+  }
+}

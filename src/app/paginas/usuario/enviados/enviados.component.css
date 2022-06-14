@@ -1,0 +1,158 @@
+.custom-pagination ::ng-deep .ngx-pagination li span {
+  color: #0F0;
+  font-size: large;
+}
+
+.custom-pagination ::ng-deep .ngx-pagination .current {
+  background: #326535;
+}
+
+input {
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  border-bottom: 1px solid #326535;
+  background: transparent;
+}
+
+input:focus{
+  outline: 2px solid #326535;
+}
+
+.my-custom-class{
+  z-index: 900;
+}
+
+
+select{
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: 2px solid #326535;
+  background-color: none;
+  font-family: montse-medium;
+  width:min-content;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  overflow: hidden;
+  outline: none;
+}
+
+option{
+  font-family: montse-ligth!important;
+}
+
+table{
+  font-size: small;
+  margin-top: 5%;
+}
+
+th{
+  font-family: montse-bold;
+}
+
+td{
+  font-family: montse-medium;
+}
+
+tr{
+  border-bottom: 1px solid #326535;
+}
+
+.cod{
+  font-family: montse-medium;
+  border-bottom: 1px solid #326535;
+}
+
+th{
+  border-bottom: 3px solid #326535;
+}
+
+.pen{
+  color: #7D7777;
+}
+
+h1 {
+  font-family: montse-bold;
+  font-size: x-large;
+}
+
+.reciente{
+  background-color: #ff7474;
+}
+
+.pendiente{
+  background-color: #e2fc46;
+}
+
+h2 {
+  font-family: montse-bold;
+  color: #7D7777;
+  margin-top: 20px;
+}
+
+thead{
+  background-color:#a9e159;
+  font-family: montse-bold;
+}
+
+tbody{
+  background-color:#E3F59B;
+  font-family: montse-medium!important;
+}
+
+.trash{
+  color: #A02A2A;
+}
+
+.modal-body input, textarea{
+  width: inherit;
+}
+
+@media (max-width: 576px) {
+  select, option{
+    font-size: 10px;
+  }
+
+  table{
+    font-size: xx-small;
+  }
+
+  h1 , h2 {
+    font-size: small;
+  }
+
+}
+
+@media (min-width: 576px) and (max-width: 768px) {
+  select, option{
+    font-size: 15px;
+  }
+
+  table{
+    font-size: 15px;
+  }
+
+  h1 , h2 {
+    font-size: medium;
+  }
+}
+
+
+@media (min-width: 768px) and (max-width: 992px) {
+
+  select, option{
+    font-size: 15px;
+  }
+
+  table{
+    font-size: 15px;
+  }
+
+  h1 , h2 {
+    font-size: large;
+  }
+}
+
+

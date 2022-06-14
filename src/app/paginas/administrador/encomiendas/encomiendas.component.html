@@ -1,0 +1,118 @@
+
+  <app-header-administrador></app-header-administrador>
+
+  <div class="container">
+    <form class="row" [formGroup]="encomienda" >
+      <select class="col-6" formControlName="id_agencia" (change)="filtrarEncomiendas()" >
+        <option value="" selected>Agencia</option>
+        <option *ngFor="let agencia of agencias" value="{{agencia.id_agencia}}"> {{agencia.nombre}}</option>
+      </select>
+      <select class="col-6" formControlName="tipo" (change)="filtrarEncomiendas()">
+        <option value="" selected>Env/Rec</option>
+        <option value="1">Enviados</option>
+        <option value="2">Recibidos</option>
+      </select>
+      <select class="col-6" formControlName="estado" (change)="filtrarEncomiendas()">
+        <option value="" selected>Estado</option>
+        <option *ngFor="let est of estadosEncomiendas" value="{{est.id_estado}}"> {{est.estado}}</option>
+      </select>
+      <select class="col-6" formControlName="activo" (change)="filtrarEncomiendas()">
+        <option value="" selected>Activas/Inactivas</option>
+        <option value="1">Activas</option>
+        <option value="2">Inactivas</option>
+      </select>
+    </form>
+    <div> <h1>Encomiendas</h1></div>
+
+    <div class="contenido padre" *ngIf="!load">
+      <div class="hijo">
+        <app-loading></app-loading>
+      </div>
+    </div>
+
+    <div class="contenido" *ngIf="resultados==false && load">
+      <h2>Lo sentimos, no hemos encontrado resultados.</h2>
+    </div>
+
+    <div class="contenido" *ngIf="resultados==true && load">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Código</th>
+            <th scope="col">Enviado por</th>
+            <th scope="col">Emisor</th>
+            <th scope="col">Recibe</th>
+            <th scope="col">Fecha y hora de llegada</th>
+            <th scope="col">Estado</th>
+            <th scope="col">  </th>
+            <th scope="col">  </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let enc of encomiendas
+                      | paginate: { id: 'foo',
+                      itemsPerPage: 20,
+                      currentPage: page } "
+                      [ngClass]="{'reciente': enc.estado == 'RECIENTE', 'pendiente': enc.estado == 'PENDIENTE', 'confirmado': enc.estado == 'CONFIRMADO' }">
+            <th class="cod" scope="row">{{enc.codigo_encomienda}}</th>
+            <td>{{enc.envia}}</td>
+            <td>{{enc.emisor}}</td>
+            <td>{{enc.recibe}}</td>
+            <td>{{enc.fecha_llegada}} {{enc.hora_llegada}}</td>
+            <td>{{enc.estado}}</td>
+            <td title="Ver mas detalles">
+                <fa-icon [icon]="faEye" (click)="verEncomienda(enc.id_encomienda,modalVerEncomienda)"> </fa-icon>
+            <td *ngIf="enc.inactivo==null" title="Inhabilitar Encomienda" (click)="inhabilitarEncomienda(enc.id_encomienda)">
+                <fa-icon class="trash" [icon]="faTrash"> </fa-icon>
+            </td>
+            <td *ngIf="enc.inactivo!=null" title="Habilitar Encomienda" (click)="habilitarEncomienda(enc.id_encomienda)">
+                <fa-icon class="pen" [icon]="faArrow"> </fa-icon>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <pagination-controls *ngIf="encomiendas.length>8" style="display: 'block';"
+        class = "custom-pagination"
+        id="foo"
+        (pageChange)="page = ($event)"
+        previousLabel="Anterior"
+        nextLabel="Siguiente">
+      </pagination-controls>
+      <pagination-controls *ngIf="encomiendas.length<=20" style="display: 'none';"
+        id="foo"
+        (pageChange)="page = ($event)"
+        previousLabel="Anterior"
+        nextLabel="Siguiente">
+      </pagination-controls>
+    </div>
+  </div>
+
+<!-- Modal -->
+<ng-template #modalVerEncomienda let-modal>
+  <div class="modal-header" style="background-color: #326535;">
+    <h4 class="modal-title" id="modal-basic-title" style="color: #fff;"> Detalles de encomienda</h4>
+    <button type="button" class="close btn" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <div aria-hidden="true">&times;</div>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="modal-body">
+      <p> <b>De:</b> {{ encom.envia }}</p>
+      <p> <b>Teléfono:</b> {{encom.telefono_emisora}}</p>
+      <p> <b>Para:</b> {{ encom.recibe }}</p>
+      <p> <b>Teléfono:</b> {{encom.telefono_receptora}}</p>
+      <p> <b>Enviado por:</b> {{ encom.emisor }}; {{encom.correo_emisor}}</p>
+      <p *ngIf="encom.estado == 'PENDIENTE' || encom.estado == 'CONFIRMADO' "> <b>Atendido por:</b> {{ encom.receptor }}; {{encom.correo_receptor}}</p>
+      <p> <b>Empresa:</b> {{ encom.empresa }}</p>
+      <p> <b>Chofer:</b> {{ encom.chofer }}</p>
+      <p> <b>#Teléfono chofer:</b> {{ encom.telefono_chofer }}</p>
+      <p *ngIf="encom.descripcion_transporte !== null"> <b>Descripción de transporte: </b>{{ encom.descripcion_transporte}}</p>
+      <p> <b>Fecha y hora de salida:</b> {{ encom.fecha_envio }} {{ encom.hora_envio }}</p>
+      <p> <b>Fecha y hora de llegada:</b> {{ encom.fecha_llegada }} {{ encom.hora_llegada }}</p>
+      <p> <b>Descripción: </b>{{ encom.descripcion }}</p>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Cerrar')">Cerrar</button>
+  </div>
+</ng-template>

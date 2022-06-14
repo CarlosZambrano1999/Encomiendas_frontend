@@ -1,0 +1,198 @@
+  <app-header-administrador></app-header-administrador>
+
+  <div class="container">
+    <div class="row">
+      <p class="col-6">usuario: {{usuario.nombre}}</p>
+      <div class="col-6 search-box">
+        <input type="text" placeholder="Buscar por código" [formControl]="codigo">
+        <fa-icon [icon]="faSearch" [ngClass]="{'disabled': codigo.invalid, 'enabled': codigo.valid}" (click)="obtenerPorCodigo()"> </fa-icon>
+      </div>
+    </div>
+
+    <form class="row" [formGroup]="empleado" >
+      <select class="col" formControlName="id_agencia" (change)="filtrarEmpleados()" >
+        <option value="" selected>Agencia</option>
+        <option *ngFor="let agencia of agencias" value="{{agencia.id_agencia}}"> {{agencia.nombre}}</option>
+      </select>
+      <select class="col" formControlName="activos" (change)="filtrarEmpleados()">
+        <option value="1">Activos</option>
+        <option value="2">Inactivos</option>
+      </select>
+      <select class="col" formControlName="logueados" (change)="filtrarEmpleados()">
+        <option value="" selected>Usuarios</option>
+        <option value="1">Registrados</option>
+        <option value="2">Sin Registrarse</option>
+      </select>
+    </form>
+
+
+
+    <div class="row">
+      <div class="col-6"> <h1>Empleados</h1></div>
+      <div class="col-6" style="text-align: end;"> <button id="principal" class="btn btnPilarh" (click)="agregarEmpleado(modalAgregarEmpleado)">Agregar Empleado</button> </div>
+    </div>
+
+    <div class="contenido padre" *ngIf="!load">
+      <div class="hijo">
+        <app-loading></app-loading>
+      </div>
+    </div>
+
+    <div class="contenido" *ngIf="resultados==false && load">
+      <h2>Lo sentimos, no hemos encontrado resultados.</h2>
+    </div>
+
+    <div class="contenido" *ngIf="resultados==true && load">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Código</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Correo</th>
+            <th scope="col">Agencia</th>
+            <th scope="col">  </th>
+            <th scope="col">  </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let emp of empleados
+                | paginate: { id: 'foo',
+                itemsPerPage: 10,
+                currentPage: page }">
+            <th class="cod" scope="row">{{emp.codigo_usuario}}</th>
+            <td>{{emp.nombre}}</td>
+            <td>{{emp.correo}}</td>
+            <td>{{emp.agencia}}</td>
+            <td *ngIf="emp.inactivo==null" title="Editar Empleado" (click)="editarEmpleado(emp, modalEditarEmpleado)">
+                <fa-icon class="pen" [icon]="faPen"> </fa-icon>
+            <td *ngIf="emp.inactivo==null" title="Inhabilitar Empleado" (click)="habEmpleado(emp, modalHabEmpleado)">
+                <fa-icon class="trash" [icon]="faTrash"> </fa-icon>
+            </td>
+            <td *ngIf="emp.inactivo!=null" title="Habilitar Empleado" (click)="habEmpleado(emp, modalHabEmpleado)">
+                <fa-icon class="pen" [icon]="faArrow"> </fa-icon>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <pagination-controls *ngIf="empleados.length>9" style="display: 'block';"
+        class = "custom-pagination"
+        id="foo"
+        (pageChange)="page = ($event)"
+        previousLabel="Anterior"
+        nextLabel="Siguiente">
+      </pagination-controls>
+      <pagination-controls *ngIf="empleados.length<=9" style="display: 'none';"
+        id="foo"
+        (pageChange)="page = ($event)"
+        previousLabel="Anterior"
+        nextLabel="Siguiente">
+      </pagination-controls>
+    </div>
+  </div>
+
+
+<!-- Modal Editar empleado -->
+<ng-template #modalEditarEmpleado let-modal>
+  <div class="modal-header" style="background-color: #326535;">
+    <h1 class="modal-title" id="modal-basic-title" style="color: #fff">Editar Empleado</h1>
+    <button  type="button" class="btn close" (click)="modal.close('Cerrar')" aria-label="Close">
+      <div aria-hidden="true">&times;</div>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form class="form-control" [formGroup]="editEmpleado" >
+      <div class="form-control">
+        <b>Código de usuario: </b>{{this.editEmpleado.get('codigo_usuario')?.value}}
+      </div>
+      <div class="form-control">
+        <b>Nombre: </b><input  formControlName="nombre" >
+      </div>
+      <span *ngIf="this.editEmpleado.get('nombre')?.invalid">
+        (Los nombres y apellidos no puede contener números)
+      </span>
+      <div class="form-control">
+        <b>Correo: </b><input formControlName="correo" >
+      </div>
+      <span *ngIf="this.editEmpleado.get('correo')?.invalid">
+        (Escriba una dirección de correo válida)
+      </span>
+      <div class="col form-control">
+      <b>Agencia: </b>
+      <select  formControlName="agencia">
+        <option *ngFor="let agen of agencias" value="{{agen.id_agencia}}"> {{agen.nombre}}</option>
+      </select>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button id="cancelar" class="btn btnPilarh2"  (click)="modal.close('Cerrar')">Cancelar</button>
+    <button [ngClass]="{'disabled': (editEmpleado.invalid || objCompare(editEmpleado.value, datosEmpleado)), 'enabled': (editEmpleado.valid)  }" id="principal" class="btn btnPilarh"  (click)="confirmarEdicion(editEmpleado.value)" >Confirmar</button><br>
+  </div>
+</ng-template>
+
+
+
+<!-- Modal Agregar empleado -->
+<ng-template #modalAgregarEmpleado let-modal>
+  <div class="modal-header" style="background-color: #326535;">
+    <h1 class="modal-title" id="modal-basic-title" style="color: #fff">Agregar Empleado</h1>
+    <button  type="button" class="btn close" (click)="modal.close('Cerrar')" aria-label="Close">
+      <div aria-hidden="true">&times;</div>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form class="form-control" [formGroup]="newEmpleado" >
+      <div class="form-control">
+        <b>Código de usuario: </b><input  formControlName="cod_usuario" placeholder="ejm: JPEREZ">
+      </div>
+      <span *ngIf="this.newEmpleado.get('cod_usuario')?.touched && this.newEmpleado.get('cod_usuario')?.invalid">
+        (El código de usuario no puede tener mas de 20 caracteres, ni contener números, ni espacios)
+      </span>
+      <div class="form-control">
+        <b>Nombre: </b><input  formControlName="nombre" placeholder="ejm: Juan Perez">
+      </div>
+      <span *ngIf="this.newEmpleado.get('nombre')?.invalid && this.newEmpleado.get('nombre')?.touched">
+        (Los nombres y apellidos no puede contener números)
+      </span>
+      <div class="form-control">
+        <b>Correo: </b><input formControlName="correo" placeholder="ejm: jperez@pilarh-opdf">
+      </div>
+      <span *ngIf="this.newEmpleado.get('correo')?.touched && this.newEmpleado.get('correo')?.invalid">
+        (Escriba una dirección de correo valida)
+      </span>
+      <div class="form-control">
+      <b>Agencia: </b><select  formControlName="agencia">
+        <option *ngFor="let agen of agencias" value="{{agen.id_agencia}}"> {{agen.nombre}}</option>
+        </select>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button id="cancelar" class="btn btnPilarh2"  (click)="modal.close('Cerrar')">Cancelar</button>
+    <button [ngClass]="{'disabled': newEmpleado.invalid, 'enabled': newEmpleado.valid  }" id="principal" class="btn btnPilarh"  (click)="guardarEmpleado(newEmpleado.value)" >Guardar</button><br>
+  </div>
+</ng-template>
+
+
+<!-- Modal Habilitar empleado -->
+<ng-template #modalHabEmpleado let-modal>
+  <div class="modal-header" style="background-color: #326535;">
+    <h1 *ngIf="habilitado.inactivo==null" class="modal-title" id="modal-basic-title" style="color: #fff">Inhabilitar Empleado</h1>
+    <h1 *ngIf="habilitado.inactivo!=null" class="modal-title" id="modal-basic-title" style="color: #fff">Habilitar Empleado</h1>
+    <button  type="button" class="btn close" (click)="modal.close('Cerrar')" aria-label="Close">
+      <div aria-hidden="true">&times;</div>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="form-control"><b>Código de usuario: </b> {{habilitado.codigo_usuario}} </div>
+    <div class="form-control"><b>Nombre: </b>{{habilitado.nombre}}</div>
+    <div class="form-control"><b>Correo: </b>{{habilitado.correo}}</div>
+    <div class="form-control">
+    <b>Agencia: </b>{{habilitado.agencia}}</div>
+  </div>
+  <div class="modal-footer">
+    <button id="cancelar" class="btn btnPilarh2"  (click)="modal.close('Cerrar')">Cancelar</button>
+    <button *ngIf="habilitado.inactivo==null" id="principal" class="btn btnPilarh"  (click)="inhabilitarEmpleado(habilitado)" >Inhabilitar</button><br>
+    <button *ngIf="habilitado.inactivo!=null" id="principal" class="btn btnPilarh"  (click)="habilitarEmpleado(habilitado)" >Habilitar</button><br>
+  </div>
+</ng-template>

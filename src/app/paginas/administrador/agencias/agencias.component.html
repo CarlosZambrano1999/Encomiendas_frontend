@@ -1,0 +1,172 @@
+
+
+  <app-header-administrador></app-header-administrador>
+
+  <div class="container">
+    <p>usuario: {{usuario.nombre}}</p>
+    <select [formControl]="activos" (change)="estadoAgencia()">
+      <option value="1">Activas</option>
+      <option value="2">Inactivas</option>
+    </select>
+
+    <div class="row">
+      <div class="col-6"> <h1>Agencias</h1></div>
+      <div class="col-6" style="text-align: end;"> <button id="principal" class="btn btnPilarh" (click)="agregarAgencia(modalAgregarAgencia)">Agregar Agencia</button> </div>
+    </div>
+
+    <div class="contenido padre" *ngIf="!load">
+      <div class="hijo">
+        <app-loading></app-loading>
+      </div>
+    </div>
+
+    <div class="contenido" *ngIf="resultados==false && load">
+      <h2>Lo sentimos, no hemos encontrado resultados.</h2>
+    </div>
+
+    <div class="contenido" *ngIf="resultados==true && load">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Agencia</th>
+            <th scope="col">Siglas</th>
+            <th scope="col">Teléfono</th>
+            <th scope="col">Dirección</th>
+            <th scope="col">  </th>
+            <th scope="col">  </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let agen of agencias
+                        | paginate: { id: 'foo',
+                        itemsPerPage: 10,
+                        currentPage: page }  ">
+            <th class="cod" scope="row">{{agen.id_agencia}}</th>
+            <td>{{agen.nombre}}</td>
+            <td>{{agen.siglas}}</td>
+            <td>{{agen.telefono}}</td>
+            <td>{{agen.direccion}}</td>
+            <td *ngIf="this.activos.value==1" title="Editar Agencia" (click)="editarAgencia(agen, modalEditarAgencia)" >  <fa-icon class="pen" [icon]="faPen"></fa-icon> </td>
+            <td *ngIf="this.activos.value==1" title="Inhabilitar Agencia" (click)="habAgencia(agen, modalHabAgencia) "> <fa-icon class="trash" [icon]="faTrash"></fa-icon> </td>
+            <td *ngIf="this.activos.value==2" title="Habilitar Agencia" (click)="habAgencia(agen, modalHabAgencia)"> <fa-icon class="pen" [icon]="faArrow"></fa-icon> </td>
+          </tr>
+        </tbody>
+      </table>
+      <pagination-controls *ngIf="agencias.length>9" style="display: 'block';"
+        class = "custom-pagination"
+        id="foo"
+        (pageChange)="page = ($event)"
+        previousLabel="Anterior"
+        nextLabel="Siguiente">
+      </pagination-controls>
+      <pagination-controls *ngIf="agencias.length<=9" style="display: 'none';"
+        id="foo"
+        (pageChange)="page = ($event)"
+        previousLabel="Anterior"
+        nextLabel="Siguiente">
+      </pagination-controls>
+    </div>
+  </div>
+
+
+<!-- Modal Agregar agencia -->
+<ng-template #modalAgregarAgencia let-modal>
+  <div class="modal-header" style="background-color: #326535;">
+    <h3 class="modal-title" id="modal-basic-title" style="color: #fff">Agregar Agencia</h3>
+    <button  type="button" class="btn close" (click)="modal.close('Cerrar')" aria-label="Close">
+      <div aria-hidden="true">&times;</div>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form class="form-control" [formGroup]="newAgencia" >
+      <div class="form-control">
+        <b>Agencia: </b><input  formControlName="nombre" placeholder="ejm: SIGUATEPEQUE">
+      </div>
+      <span *ngIf="this.newAgencia.get('nombre')?.touched && this.newAgencia.get('nombre')?.invalid">
+        (Escriba el nombre en Mayúsculas)
+      </span>
+      <div class="form-control">
+        <b>Siglas: </b><input  formControlName="siglas" placeholder="ejm: SG">
+      </div>
+      <span *ngIf="this.newAgencia.get('siglas')?.touched && this.newAgencia.get('siglas')?.invalid">
+        (Las siglas no puede tener más de 4 caracteres, ni tener minúsculas)
+      </span>
+      <div class="form-control">
+        <b>Telefono: </b><input formControlName="telefono" placeholder="ejm: 9999999">
+      </div>
+      <span *ngIf="this.newAgencia.get('telefono')?.touched && this.newAgencia.get('telefono')?.invalid">
+        (El teléfono solo acepta 8 numeros y/o un guión ejm 2776-3443)
+      </span>
+      <div class="form-control">
+        <b>Dirección: </b> <textarea formControlName="direccion" aria-label="With textarea"></textarea></div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button id="cancelar" class="btn btnPilarh2"  (click)="modal.close('Cerrar')">Cancelar</button>
+    <button [ngClass]="{'disabled': newAgencia.invalid, 'enabled': newAgencia.valid  }" id="principal" class="btn btnPilarh"  (click)="guardarAgencia(newAgencia.value)" >Guardar</button><br>
+  </div>
+</ng-template>
+
+
+<!-- Modal Editar Agencia -->
+<ng-template #modalEditarAgencia let-modal>
+  <div class="modal-header" style="background-color: #326535;">
+    <h3 class="modal-title" id="modal-basic-title" style="color: #fff">Editar Agencia</h3>
+    <button  type="button" class="btn close" (click)="modal.close('Cerrar')" aria-label="Close">
+      <div aria-hidden="true">&times;</div>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form class="form-control" [formGroup]="editAgencia" >
+      <div class="form-control">
+        <b>Agencia: </b><input  formControlName="nombre">
+      </div>
+      <span *ngIf="this.editAgencia.get('nombre')?.invalid">
+        (Escriba el nombre de la agencia en mayúsculas)
+      </span>
+      <div class="form-control">
+        <b>Siglas: </b><input  formControlName="siglas" >
+      </div>
+      <span *ngIf="this.editAgencia.get('siglas')?.invalid">
+        (Las siglas no puede tener más de 4 caracteres ni tener minúsculas)
+      </span>
+      <div class="form-control">
+        <b>Teléfono: </b><input formControlName="telefono" >
+      </div>
+      <span *ngIf="this.editAgencia.get('telefono')?.invalid">
+        (El teléfono solo acepta 8 digitos y/o un guion ejm 2776-3443)
+      </span>
+      <div class="form-control">
+        <b>Dirección: </b> <textarea formControlName="direccion" aria-label="With textarea"></textarea>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button id="cancelar" class="btn btnPilarh2"  (click)="modal.close('Cerrar')">Cancelar</button>
+    <button [ngClass]="{'disabled': (editAgencia.invalid || objCompare(editAgencia.value, comparar)), 'enabled': (editAgencia.valid)  }" id="principal" class="btn btnPilarh"  (click)="confirmarEdicion(editAgencia.value)" >Confirmar</button><br>
+  </div>
+</ng-template>
+
+
+<!-- Modal Habilitar Agencia -->
+<ng-template #modalHabAgencia let-modal>
+  <div class="modal-header" style="background-color: #326535;">
+    <h3 *ngIf="this.activos.value==1" class="modal-title" id="modal-basic-title" style="color: #fff">Inhabilitar Agencia</h3>
+    <h3 *ngIf="this.activos.value==2" class="modal-title" id="modal-basic-title" style="color: #fff">Habilitar Agencia</h3>
+    <button  type="button" class="btn close" (click)="modal.close('Cerrar')" aria-label="Close">
+      <div aria-hidden="true">&times;</div>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="form-control"><b>Agencia: </b> {{habilitado.nombre}} </div>
+    <div class="form-control"><b>Siglas: </b>{{habilitado.siglas}}</div>
+    <div class="form-control"><b>Telefono: </b>{{habilitado.telefono}}</div>
+    <div class="form-control"><b>Dirección: </b>{{habilitado.direccion}}</div>
+  </div>
+  <div class="modal-footer">
+    <button id="cancelar" class="btn btnPilarh2"  (click)="modal.close('Cerrar')">Cancelar</button>
+    <button *ngIf="this.activos.value==1" id="principal" class="btn btnPilarh"  (click)="inhabilitarAgencia(habilitado)" >Inhabilitar</button><br>
+    <button *ngIf="this.activos.value==2" id="principal" class="btn btnPilarh"  (click)="habilitarAgencia(habilitado)" >Habilitar</button><br>
+  </div>
+</ng-template>

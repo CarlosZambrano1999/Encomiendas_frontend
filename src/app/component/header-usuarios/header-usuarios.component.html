@@ -1,0 +1,37 @@
+<nav class="slidemenu">
+
+  <input type="radio" name="slideItem" id="slide-item-1" class="slide-toggle" checked/>
+  <label for="slide-item-1"><img src="../../../assets/img/Logo-PILARH.png" class="img-fluid"></label>
+
+  <input type="radio" name="slideItem" id="slide-item-2" class="slide-toggle" checked/>
+  <label for="slide-item-2"><span class="ingreen" routerLink="/send" routerLinkActive="linkActive">ENVIAR</span></label>
+
+  <input type="radio" name="slideItem" id="slide-item-3" class="slide-toggle" checked/>
+  <label for="slide-item-3"><span class="ingreen" routerLink="/sent" routerLinkActive="linkActive">ENVIADOS</span></label>
+
+  <input type="radio" name="slideItem" id="slide-item-4" class="slide-toggle" checked/>
+  <label for="slide-item-4"><span class="ingreen" routerLink="/received" routerLinkActive="linkActive">RECIBIDOS</span></label>
+
+  <input type="radio" name="slideItem" id="slide-item-5" class="slide-toggle" checked/>
+  <label class="salir" for="slide-item-5"><span class="salir" (click)="cerrarSesion(modalCerrarSesion)">SALIR</span></label>
+
+  <div class="clear"></div>
+</nav>
+
+
+<!-- Modal Cerrar Sesion -->
+<ng-template #modalCerrarSesion let-modal>
+  <div class="modal-header" style="background-color: #A02A2A;">
+    <h3 class="modal-title" id="modal-basic-title" style="color: #fff">Cerrando Sesión</h3>
+    <button  type="button" class="btn close" (click)="modal.close('Cerrar')" aria-label="Close">
+      <div aria-hidden="true">&times;</div>
+    </button>
+  </div>
+  <div class="modal-body">
+    <h3>¿Está seguro que desea salir?</h3>
+  </div>
+  <div class="modal-footer">
+    <button id="cancelar" class="btn btnPilarh2"  (click)="modal.close('Cerrar')">Cancelar</button>
+    <button id="salir" class="btn btnPilarh3"  (click)="salir()" >Salir</button><br>
+  </div>
+</ng-template>

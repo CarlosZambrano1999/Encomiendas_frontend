@@ -1,0 +1,115 @@
+.custom-pagination ::ng-deep .ngx-pagination li span {
+  color: #0F0;
+  font-size: large;
+}
+
+.custom-pagination ::ng-deep .ngx-pagination .current {
+  background: #326535;
+}
+
+.container{
+  height: 100vh;
+}
+
+.aceptar{
+  color:blue;
+  background-color: transparent;
+  border: 0;
+}
+
+table{
+  font-size: small;
+  margin-top: 5%;
+}
+
+th{
+  font-family: montse-bold;
+}
+
+td{
+  font-family: montse-medium;
+}
+
+tr{
+  border-bottom: 1px solid #326535;
+}
+
+h1 {
+  font-family: montse-bold;
+  font-size: x-large;
+}
+
+h2 {
+  font-family: montse-bold;
+  color: #7D7777;
+  margin-top: 20px;
+}
+
+
+@media(max-width: 576px){
+
+  select, option{
+    font-size: 10px;
+  }
+
+  table{
+    font-size: xx-small;
+  }
+
+  h1 , h2 {
+    font-size: small;
+  }
+}
+
+@media (min-width: 576px) and (max-width: 768px) {
+
+  select, option{
+    font-size: 10px;
+  }
+
+  table{
+    font-size: xx-small;
+  }
+
+  h1 , h2 {
+    font-size:medium;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 992px) {
+
+  select, option{
+    font-size: 15px;
+  }
+
+  table{
+    font-size: 15px;
+  }
+
+  h1 , h2 {
+    font-size: large;
+  }
+}
+
+.contenido{
+  margin-top: 0%;
+}
+
+select{
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: 2px solid #326535;
+  background-color: none;
+  font-family: montse-medium;
+  width:min-content;
+  margin-right: 10px;
+  margin-top: 10px;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  overflow: hidden;
+  outline: none;
+}
+
+

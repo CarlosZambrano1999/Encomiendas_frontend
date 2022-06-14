@@ -1,0 +1,129 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+
+.clear{
+  clear: both;
+}
+
+.slide-toggle{
+  display:none;
+}
+
+.salir{
+  color: #A02a2a;
+}
+
+.salir:hover{
+  color:#f00;
+}
+
+.slidemenu{
+  font-family: montse-medium;
+  width: 100%;
+  overflow: visible;
+  background-color:#e3f6d2;
+  padding: 10px 2px;
+}
+
+.slidemenu label{
+  width: 20%;
+  text-align: center;
+  display:block;
+  float: left;
+  color: #326535;
+}
+
+.slidemenu label:hover{
+  cursor: pointer;
+  color: #0f0;
+}
+
+.ingreen{
+  color:#326535;
+}
+
+.slidemenu label span{
+  display: block;
+  padding: 10px;
+  font-family: 'montse-bold';
+  font-size: x-large;
+}
+
+.slidemenu label span:active{
+  color: #0f0;
+}
+
+.linkActive{
+  color:#0f0;
+}
+
+.slider{
+  width: 100%;
+  height: 5px;
+  display: block;
+  background: #ccc;
+  margin-top: 10px;
+  border-radius: 5px;
+}
+
+.slider .bar{
+  width: 20%;
+  height: 5px;
+  background: #0f0;
+  border-radius: 5px;
+}
+
+.slider .bar:active{
+  background: #f00;
+}
+
+.slidemenu label, .slide .bar{
+  transition: all 500ms ease-in-out;
+  -webkit-transition: all 500ms ease-in-out;
+  -moz-transition: all 500ms ease-in-out;
+}
+
+.slidemenu .slide-toggle:checked + label{
+  opacity: 1;
+}
+
+.modal-header h3{
+  margin: 10px 20px;
+}
+
+.modal-body h3{
+  margin: 10px 20px;
+}
+
+.btn{
+  margin: 15px;
+  width: auto;
+  padding: 10px;
+}
+
+.slidemenu #slide-item-1:checked ~ .slider .bar { margin-left: 0;}
+.slidemenu #slide-item-2:checked ~ .slider .bar { margin-left: 20%;}
+.slidemenu #slide-item-3:checked ~ .slider .bar { margin-left: 40%;}
+.slidemenu #slide-item-4:checked ~ .slider .bar { margin-left: 60%;}
+.slidemenu #slide-item-5:checked ~ .slider .bar { margin-left: 80%;}
+
+
+@media (max-width: 576px) {
+  .slidemenu label span{
+    font-size: x-small;
+  }
+}
+
+@media (min-width: 576px) and (max-width: 768px) {
+  .slidemenu label span{
+    font-size: small;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 992px) {
+  .slidemenu label span{
+    font-size: medium;
+  }
+}

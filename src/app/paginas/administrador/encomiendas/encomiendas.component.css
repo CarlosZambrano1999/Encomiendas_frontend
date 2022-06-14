@@ -1,0 +1,100 @@
+.custom-pagination ::ng-deep .ngx-pagination li span {
+  color: #0F0;
+  font-size: large;
+}
+
+.custom-pagination ::ng-deep .ngx-pagination .current {
+  background: #326535;
+}
+
+select{
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: 2px solid #326535;
+  background-color: none;
+  font-family: montse-medium;
+  width:min-content;
+  margin-right: 10px;
+  margin-top: 10px;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  overflow: hidden;
+  outline: none;
+}
+
+option{
+  font-family: montse-ligth!important;
+}
+
+th{
+  font-family: montse-bold;
+}
+
+td{
+  font-family: montse-medium;
+}
+
+tr{
+  border-bottom: 1px solid #326535;
+}
+
+.cod{
+  font-family: montse-medium;
+  border-bottom: 1px solid #326535;
+}
+
+th{
+  border-bottom: 3px solid #326535;
+}
+
+.pen{
+  color: #7D7777;
+}
+
+table{
+  font-size: small;
+  margin-top: 2%;
+  margin-bottom: 2%;
+}
+
+h1 {
+  font-family: montse-bold;
+  margin: 20px 0px;
+}
+
+h2 {
+  font-family: montse-bold;
+  margin: 20px 0px;
+  color: #7D7777;
+}
+
+.trash{
+  color: #A02A2A;
+}
+
+@media (max-width: 576px) {
+  option{
+    font-size: xx-small;
+  }
+
+  table{
+    font-size: xx-small;
+  }
+
+  h1, h2{
+    font-size: medium;
+  }
+
+}
+
+@media (min-width: 576px) and (max-width: 768px) {
+  option{
+    font-size: x-small;
+  }
+
+  table{
+    font-size: x-small;
+  }
+}

@@ -1,0 +1,72 @@
+.centrar {
+  text-align: center;
+}
+
+#logo-pilarh {
+  width: 360px;
+}
+
+.container{
+  margin-top: 10%;
+}
+
+h1 {
+  font-family: montse-bold;
+  font-size: 15px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+input {
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  border-bottom: 1px solid #326535;
+  text-align: center;
+  background: transparent;
+}
+
+input:focus{
+  outline: 2px solid #326535;
+}
+
+.btn {
+  width: 217px;
+  height: 37px;
+  text-align: center;
+  font-family: montse-bold;
+  font-size: 15px;
+  border-radius: 50px;
+  color: white;
+  margin-bottom: 15px;
+}
+
+#continuar {
+  background-color: #326535;
+  margin-top: 25px;
+}
+
+#registrar {
+  background-color: #727777;
+}
+
+.olv{
+  color: #00F;
+  background-color: transparent;
+  font-size: small;
+  border: none;
+}
+
+main{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (max-width: 576px) {
+
+  #continuar, #registrar{
+    width: 100px;
+    font-size: x-small;
+  }
+}

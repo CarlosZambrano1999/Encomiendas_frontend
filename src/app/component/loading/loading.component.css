@@ -1,0 +1,33 @@
+.loader-wrapper{
+  width:60px;
+  height: 60px;
+}
+
+.loader{
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  border: 10px solid  #008f39;
+  border-top-color: #336535;
+  border-bottom-color:#00ff00;
+  border-radius: 50%;
+  animation: rotate 5s linear infinite;
+}
+
+.loader-inner{
+  border-top-color: #19f820;
+  border-bottom-color: #00ff55;
+  animation-duration: 1.8s;
+}
+
+@keyframes rotate {
+  0%{
+    transform: scale(1) rotate(360deg);
+  }
+  50%{
+    transform: scale(.8) rotate(-360deg);
+  }
+  100%{
+    transform: scale(1) rotate(360deg);
+  }
+}

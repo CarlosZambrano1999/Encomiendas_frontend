@@ -1,0 +1,61 @@
+
+input, select{
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: 2px solid #326535;
+  background-color: none;
+  color: black;
+  font-size: 14px;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  overflow: hidden;
+  outline: none;
+}
+
+.centrar {
+  text-align: center;
+}
+
+form{
+  font-family: 'montse-medium';
+}
+form div{
+  margin-top: 10px;
+}
+
+label{
+  font-size: 18px;
+  color: #326535;
+}
+textarea{
+  border: 2px solid #326535;
+  margin-top: 10px;
+}
+
+h5{
+  margin-top: 1%;
+  font-family: 'montse-bold' ;
+}
+
+.container{
+  height: 100vh;
+}
+
+@media (max-width: 576px) {
+
+  h5, label, textarea{
+    font-size: small;
+  }
+
+  input{
+    font-size: 0.8rem;
+  }
+
+  select{
+    font-size: xx-small;
+  }
+}
+
+

@@ -1,0 +1,183 @@
+/* You can add global styles to this file, and also import other style files */
+
+@font-face {
+    font-family: montse-bold;
+    src: url(assets/fonts/Montserrat/Montserrat-Bold.ttf);
+}
+
+@font-face {
+    font-family: montse-ligth;
+    src: url(assets/fonts/Montserrat/Montserrat-Light.ttf);
+}
+
+@font-face {
+  font-family: montse-medium;
+  src: url(assets/fonts/Montserrat/Montserrat-Medium.ttf);
+}
+
+body {
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  background-color: #faf4f4;
+  min-height: 100vh;
+}
+
+.bg1{
+  background-image: url('./assets/img/bg.jpg')!important;
+  background-color: #faf4f4;
+}
+
+.bg2{
+  background-image: url('./assets/img/bg2.jpg')!important;
+  background-color: #faf4f4;
+}
+
+.bg3{
+  background-image: url('./assets/img/bg4.jpg')!important;
+  background-color: #faf4f4;
+}
+
+.container{
+  margin-top: 5%;
+}
+
+.reciente{
+  background-color: #ff7474;
+}
+
+.pendiente{
+  background-color: #e2fc46;
+}
+
+.confirmado{
+  background-color: #00ff00;
+}
+
+.btnPilarh:hover{
+  box-shadow: inset -10.5em 0 0 0
+  #00ff00, inset 10.5em 0 0 0 #00ff00;
+}
+
+.btnPilarh2:hover{
+  box-shadow: inset -10.5em 0 0 0
+  #acacac, inset 10.5em 0 0 0 #acacac;
+}
+
+acti{
+  display: block;
+}
+
+inacti{
+  display: none;
+}
+
+#salir{
+  background-color: #A02A2A;
+  margin-top: 25px;
+  font-family: montse-bold;
+  font-size: 15px;
+  border-radius: 50px;
+  color: white;
+}
+
+.btnPilarh3:hover{
+  box-shadow: inset -10.5em 0 0 0
+  #f00, inset 10.5em 0 0 0 #acacac;
+}
+
+p{
+  font-family: montse-medium;
+}
+
+span{
+  font-family: montse-light;
+  font-size: small;
+  color: #f00;
+}
+
+.padre {
+  display: flex;
+  justify-content: center;
+}
+
+.hijo {
+  padding: 10px;
+  margin: 10px;
+}
+
+#principal {
+  background-color: #326535;
+  margin-top: 25px;
+  font-family: montse-bold;
+  font-size: 15px;
+  border-radius: 50px;
+  color: white;
+}
+
+#iniciar {
+  background-color: #326535;
+  margin-top: 15px;
+}
+
+#cancelar {
+  background-color: #727777;
+  margin-top: 25px;
+  font-family: montse-bold;
+  font-size: 15px;
+  border-radius: 50px;
+  border: 0px;
+  color: white;
+}
+
+#time-picker-wrapper{
+  position:absolute;
+  z-index : 99999999!important;
+}
+
+.sombra{
+  box-shadow: 2px 2px 5px #999;
+  padding: 10px;
+  background: azure;
+}
+
+
+@media (max-width: 576px) {
+
+  #principal, #cancelar, #salir, #iniciar{
+    font-size: xx-small;
+  }
+
+  #iniciar, #cancelar{
+    width: 100px;
+    margin-bottom: 0px;
+  }
+
+  #cancelar, #principal{
+    margin-top: 20px;
+  }
+
+  span{
+    font-size: xx-small;
+  }
+  .modal-body .form-control{
+    font-size: x-small;
+  }
+
+  .modal-body .form-control{
+    width: 300px
+  }
+
+  .modal-body form div{
+    width: 100%!important;
+  }
+
+  .modal-content{
+    width:350px!important;
+  }
+
+  .modal-body input, select{
+    width:min-content!important;
+  }
+}
