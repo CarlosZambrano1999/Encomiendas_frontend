@@ -1,14 +1,16 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { faEye } from '@fortawesome/free-solid-svg-icons';
+import { faEye, faPrint } from '@fortawesome/free-solid-svg-icons';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AgenciaService } from 'src/app/services/agencia.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { EmpleadosService } from 'src/app/services/empleados.service';
 import { EncomiendasService } from 'src/app/services/encomiendas.service';
 import { EstadoService } from 'src/app/services/estado.service';
 import Swal from 'sweetalert2';
 import { urlServer } from '../../../utilities/common';
+ 
 
 @Component({
   selector: 'app-recibidos',
@@ -20,21 +22,26 @@ export class RecibidosComponent implements OnInit {
   urlServer = urlServer;
   encomiendas : any = [];
   encom : any = {}; //variable sirve para ver una encomienda en especifico
+  usuario: any = {};
   estadosEncomiendas: any = [];
-  faEye = faEye
+  faEye = faEye;
+  faPrint = faPrint;
   load : boolean = false;
   public page: number = 0;
   setIntervalConst:any;
-
+  acuseRecibo: any = {};
+  @ViewChild('acuse') title!: ElementRef;
+  anio1: number = new Date().getFullYear();
   estado= new FormControl('', [Validators.required]); //filtrar por estado
-
+  
 
   constructor(private agenciaService: AgenciaService, private encomiendaService: EncomiendasService,
               private estadoService: EstadoService, private http: HttpClient , public modal: NgbModal,
-              private authService: AuthService) { }
+              private authService: AuthService, private empleadoService: EmpleadosService) { }
 
   //Funciones iniciales
   ngOnInit(): void {
+    this.acuseRecibo=null;
     //Obtiene los estados de las encomiendas para poder filtra
     this.estadoService.obtenerEstados().subscribe( res => {
       try {
@@ -44,6 +51,15 @@ export class RecibidosComponent implements OnInit {
       }
     })
 
+    //obtiene los datos del usuario logueado
+    this.empleadoService.obtenerUsuario().subscribe( res=>{
+      try {
+        this.usuario = res.data;
+      } catch (error) {
+        console.log(error);
+      }
+    });
+
     this.loading();
 
     this.filtrarEncomiendas();
@@ -51,6 +67,7 @@ export class RecibidosComponent implements OnInit {
     this.setIntervalConst = setInterval(() => {
       this.filtrarEncomiendas();
     }, 60000);
+    
   }
 
   //Funcion que carga spinner para mostrar datos
@@ -176,8 +193,21 @@ export class RecibidosComponent implements OnInit {
     })
   }
 
+  //ver acuse
+  verAcuse(enc:any, modal : any ){
+    this.encomiendaService.verEncomienda(enc.id_encomienda).subscribe( res => {
+      try {
+        this.acuseRecibo = res.data[0];
+        this.modal.open(modal , { size: <any>'xl' });
+      } catch (error) {
+        console.log(error);
+      }
+    }) 
+  }
+
   ngOnDestroy(): void {
     clearInterval(this.setIntervalConst);
   }
 }
+
 

@@ -123,6 +123,13 @@ p{
   font-family:'montse-medium' ;
 }
 
+#selfirma{
+  background: transparent;
+  border: none;
+  color: blue;
+}
+
+
 /*estilos responsivos*/
 @media (max-width: 576px) {
   option{

@@ -1,6 +1,6 @@
   <app-header-usuarios></app-header-usuarios>
 
-  <div class="container">
+  <div id= "container" class="container">
     <div class="contenido">
       <div class="row">
         <h1 class="col-6"><b>Encomiendas Recibidas</b></h1>
@@ -34,7 +34,7 @@
         <tbody>
           <tr *ngFor="let enc of encomiendas
                       | paginate: { id: 'foo',
-                      itemsPerPage: 20,
+                      itemsPerPage: 30,
                       currentPage: page } "
                       [ngClass]="{'reciente': enc.estado == 'RECIENTE', 'pendiente': enc.estado == 'PENDIENTE', 'confirmado': enc.estado == 'CONFIRMADO' }">
             <th class="cod" scope="row">{{enc.codigo_encomienda}}</th>
@@ -51,19 +51,24 @@
             <td *ngIf="enc.estado=='PENDIENTE'">
               <button class="aceptar" (click)="confirmarEncomienda(enc.id_encomienda)"><u> confirmar</u></button>
             </td>
-            <td *ngIf="enc.estado=='CONFIRMADO'">
+            <td *ngIf="usuario.nombre!=enc.emisor && enc.estado=='CONFIRMADO'">
             </td>
+            <td *ngIf="usuario.nombre==enc.emisor && enc.estado=='CONFIRMADO'">
+              <button class="aceptar" (click)="verAcuse(enc, modalVerAcuse)"><fa-icon [icon]="faPrint"> </fa-icon> <u> imprimir</u></button>
+            </td>
+           
+
           </tr>
         </tbody>
       </table>
-      <pagination-controls *ngIf="encomiendas.length>20" style="display: 'block';"
+      <pagination-controls *ngIf="encomiendas.length>29" style="display: 'block';"
         class = "custom-pagination"
         id="foo"
         (pageChange)="page = ($event)"
         previousLabel="Anterior"
         nextLabel="Siguiente">
       </pagination-controls>
-      <pagination-controls *ngIf="encomiendas.length<=20" style="display: 'none';"
+      <pagination-controls *ngIf="encomiendas.length<=29" style="display: 'none';"
         id="foo"
         (pageChange)="page = ($event)"
         previousLabel="Anterior"
@@ -73,7 +78,47 @@
   </div>
 
 
-<!-- Modal -->
+  <!-- imprimir acuse -->
+  <ng-template #modalVerAcuse let-modal>
+    <div id="acuse" *ngIf="acuseRecibo!=null"  class="acuse" #acuse>
+      <div class="encab">
+          <img src="../../../../assets/img/Logo-PILARH.png" alt="">
+          <div class="year"> <h1>{{anio1}}</h1></div>  
+      </div>
+      <div style="text-align: center;">
+          <h2> <u>Acuse de recibo</u> </h2>
+      </div>
+      <div class="cuerpo">
+          <p> <b>De:</b> {{acuseRecibo.envia}} </p>
+          <p> <b>Enviado por:</b> {{acuseRecibo.emisor}}</p>
+          <p> <b>Para:</b> {{acuseRecibo.recibe}}</p>
+          <p> <b>Atendido por: </b> {{acuseRecibo.receptor}}</p>
+          <p> <b>Fecha y hora de salida:</b> {{acuseRecibo.fecha_envio}}</p>
+          <p> <b>Fecha y hora de llegada:</b> {{acuseRecibo.fecha_llegada}}</p>
+          <p> <b>Descripción: </b>{{acuseRecibo.descripcion}} </p>
+      </div>
+      <div class="firma">
+          <div class="firmem">
+              <img class="imgfirmem" src="{{acuseRecibo.firma_emisor}}" alt="{{acuseRecibo.emisor}}">
+              <p><b>Firma quien envia</b></p>
+          </div>
+          <div class="firmem">
+              <img class="imgfirmem" src="{{acuseRecibo.firma_receptor}}" alt="{{acuseRecibo.receptor}}">
+              <p><b>Firma quien Recibe</b></p>
+          </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Cerrar')">Cerrar</button>
+      <button class="btn btnPilarh" 
+      printSectionId="acuse"
+      [useExistingCss]="true"
+      ngxPrint>Imprimir</button><br>
+    </div>
+  </ng-template>
+  
+
+
 <ng-template #modalVerEncomienda let-modal>
   <div class="modal-header" style="background-color: #326535;">
     <h4 class="modal-title" id="modal-basic-title" style="color: #fff;"> Detalles de encomienda</h4>

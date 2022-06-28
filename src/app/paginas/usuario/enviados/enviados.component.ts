@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { faPen, faEye } from '@fortawesome/free-solid-svg-icons';
+import { faPen, faEye, faPrint } from '@fortawesome/free-solid-svg-icons';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from 'src/app/services/auth.service';
 import { EmpleadosService } from 'src/app/services/empleados.service';
@@ -30,11 +30,15 @@ export class EnviadosComponent implements OnInit {
   agencias : any = [];
   faEye = faEye
   faPen = faPen;
+  faPrint = faPrint;
   load : boolean = false;
   public page: number = 0;
   estado= new FormControl('', [Validators.required]);
+  acuseRecibo: any = {};
+  anio1: number = new Date().getFullYear();
 
   setIntervalConst: any;
+  
 
   /* Variables para fecha */
 
@@ -218,6 +222,19 @@ export class EnviadosComponent implements OnInit {
       return false;
     }
   }
+
+  //ver acuse
+  verAcuse(enc:any, modal : any ){
+    this.encomiendaService.verEncomienda(enc.id_encomienda).subscribe( res => {
+      try {
+        this.acuseRecibo = res.data[0];
+        this.modal.open(modal , { size: <any>'xl' });
+      } catch (error) {
+        console.log(error);
+      }
+    }) 
+  }
+
 
   ngOnDestroy(): void {
     clearInterval(this.setIntervalConst);

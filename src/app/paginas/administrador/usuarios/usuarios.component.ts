@@ -8,6 +8,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
 import { AuthService } from '../../../services/auth.service';
+import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
   selector: 'app-usuarios',
@@ -29,6 +30,10 @@ export class UsuariosComponent implements OnInit {
   urlServer = urlServer;
   public load: boolean = false;
   public page: number = 1;
+
+  resultImg: string = '';
+  image : any = [];
+  anio1: number = new Date().getFullYear();
   /*Formularios */
   empleado = new FormGroup({
     id_agencia: new FormControl ('', [Validators.required]),
@@ -55,6 +60,7 @@ export class UsuariosComponent implements OnInit {
 
   constructor(private agenciaService: AgenciaService, private empleadoService: EmpleadosService,
               private http: HttpClient, public modal: NgbModal, private authService: AuthService,
+              private storageService: StorageService
               ) { }
 
   //Funciones al iniciar el componente
@@ -312,6 +318,68 @@ export class UsuariosComponent implements OnInit {
         return true;
     }else{
       return false;
+    }
+  }
+
+  cargarImagen(event: any){
+    this.image= [];
+    this.resultImg='';
+    let archivo = event.target.files;
+    let reader = new FileReader();
+    reader.readAsDataURL(archivo[0]);
+    reader.onloadend = () => {
+    console.log('img' ,reader.result);
+    this.image.push(reader.result);
+    console.log('img2' ,this.image[0]);
+    }
+  }
+
+  agregarFirma(emp: any){
+    if(this.image.length>0){
+      this.storageService.subirImagen(emp.nombre, this.image[0]).then( url  =>{
+        const employeed={
+          id_usuario: emp.id_usuario,
+          firma: url
+        }
+        var header = {
+          headers: new HttpHeaders()
+            .set('Authorization',  `Bearer ${this.authService.getToken()}`)
+        }
+        this.http.post(urlServer + `/empleado/agregarFirma`, employeed, header).subscribe( (res:any)=>{
+          try {
+            if(res.message=='Successfully'){
+              Swal.fire({
+                icon: 'success',
+                title: 'Exitoso',
+                text: 'Firma agregada con exito',
+                width: 'auto',
+                showConfirmButton: false,
+                timer: 1500
+              });
+            }else{
+              Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'No se ha seleccionado ningun archivo',
+                width: 'auto',
+                showConfirmButton: true
+              });
+            }
+            this.modal.dismissAll();
+            this.filtrarEmpleados();
+          } catch (error) {
+            console.log(error);
+          }
+        });
+      });
+    }else{
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Aun no se ha cargado ningun archivo',
+        width: 'auto',
+        showConfirmButton: true
+      });
     }
   }
 

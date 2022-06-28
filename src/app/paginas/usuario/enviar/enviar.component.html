@@ -64,7 +64,7 @@
         </div>
         <div class="row">
           <label class="col-6 col-xs-6 col-md-4 col-lg-3 col-xl-3" >Descripción del paquete:</label>
-          <textarea formControlName="descripcion" class="col-5 col-xs-5 col-md-4 col-lg-4 col-xl-4" cols="15" rows="3" placeholder="Espicifique si envía caja, bolsa o sobre, y algotra descripción que crea conveniente"></textarea>
+          <textarea formControlName="descripcion" class="col-5 col-xs-5 col-md-4 col-lg-4 col-xl-4" cols="15" rows="3" placeholder="Especifique si envía caja, bolsa o sobre, y algotra descripción que crea conveniente"></textarea>
         </div>
         <div style="text-align: center;">
           <button [ngClass]="{'disabled': encomienda.invalid, 'enabled': encomienda.valid}" id="principal" class="btn btnPilarh" (click)="enviar(modalRealizarEnvio)">Realizar envío</button>

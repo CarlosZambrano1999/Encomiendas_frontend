@@ -51,7 +51,7 @@
         <tbody>
           <tr *ngFor="let enc of encomiendas
                       | paginate: { id: 'foo',
-                      itemsPerPage: 20,
+                      itemsPerPage: 30,
                       currentPage: page } "
                       [ngClass]="{'reciente': enc.estado == 'RECIENTE', 'pendiente': enc.estado == 'PENDIENTE', 'confirmado': enc.estado == 'CONFIRMADO' }">
             <th class="cod" scope="row">{{enc.codigo_encomienda}}</th>
@@ -71,14 +71,14 @@
           </tr>
         </tbody>
       </table>
-      <pagination-controls *ngIf="encomiendas.length>8" style="display: 'block';"
+      <pagination-controls *ngIf="encomiendas.length>29" style="display: 'block';"
         class = "custom-pagination"
         id="foo"
         (pageChange)="page = ($event)"
         previousLabel="Anterior"
         nextLabel="Siguiente">
       </pagination-controls>
-      <pagination-controls *ngIf="encomiendas.length<=20" style="display: 'none';"
+      <pagination-controls *ngIf="encomiendas.length<=29" style="display: 'none';"
         id="foo"
         (pageChange)="page = ($event)"
         previousLabel="Anterior"

@@ -52,12 +52,13 @@
             <th scope="col">Agencia</th>
             <th scope="col">  </th>
             <th scope="col">  </th>
+            <th scope="col">  </th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let emp of empleados
                 | paginate: { id: 'foo',
-                itemsPerPage: 10,
+                itemsPerPage: 20,
                 currentPage: page }">
             <th class="cod" scope="row">{{emp.codigo_usuario}}</th>
             <td>{{emp.nombre}}</td>
@@ -71,17 +72,22 @@
             <td *ngIf="emp.inactivo!=null" title="Habilitar Empleado" (click)="habEmpleado(emp, modalHabEmpleado)">
                 <fa-icon class="pen" [icon]="faArrow"> </fa-icon>
             </td>
+            <td *ngIf="emp.firma==null" style="color: blue;"> 
+                <input id="fichero-tarifas" class="input-file" type="file" accept=".jpg, .png, .jpeg " (change)="cargarImagen($event)">
+                <button id="selfirma" (click)="agregarFirma(emp)"> <u>Agregar firma</u>  </button> 
+            </td>
+            <td *ngIf="emp.firma!=null" style="color: blue;"> </td>
           </tr>
         </tbody>
       </table>
-      <pagination-controls *ngIf="empleados.length>9" style="display: 'block';"
+      <pagination-controls *ngIf="empleados.length>19" style="display: 'block';"
         class = "custom-pagination"
         id="foo"
         (pageChange)="page = ($event)"
         previousLabel="Anterior"
         nextLabel="Siguiente">
       </pagination-controls>
-      <pagination-controls *ngIf="empleados.length<=9" style="display: 'none';"
+      <pagination-controls *ngIf="empleados.length<=19" style="display: 'none';"
         id="foo"
         (pageChange)="page = ($event)"
         previousLabel="Anterior"

@@ -47,6 +47,9 @@
             <td title="Editar Encomienda">
                 <fa-icon *ngIf="usuario.nombre==enc.emisor && enc.estado!='CONFIRMADO'" class="trash" [icon]="faPen" (click)="editarEncomienda(enc, modalEditarEncomienda)" > </fa-icon>
             </td>
+            <td *ngIf="usuario.nombre==enc.emisor && enc.estado=='CONFIRMADO'">
+              <button class="aceptar" (click)="verAcuse(enc, modalVerAcuse)"><fa-icon [icon]="faPrint"> </fa-icon> <u> imprimir</u></button>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -145,3 +148,43 @@
     <button [ngClass]="{'disabled': (editEncomienda.invalid || objCompare()), 'enabled': (editEncomienda.valid)  }" id="principal" class="btn btnPilarh"  (click)="confirmarEdicion(editEncomienda.value)" >Confirmar</button><br>
   </div>
 </ng-template>
+
+
+  <!-- imprimir acuse -->
+  <ng-template #modalVerAcuse let-modal>
+    <div id="acuse" *ngIf="acuseRecibo!=null"  class="acuse" #acuse>
+      <div class="encab">
+          <img src="../../../../assets/img/Logo-PILARH.png" alt="">
+          <div class="year"> <h1>{{anio1}}</h1></div>  
+      </div>
+      <div style="text-align: center;">
+          <h2> <u>Acuse de recibo</u> </h2>
+      </div>
+      <div class="cuerpo">
+          <p> <b>De:</b> {{acuseRecibo.envia}} </p>
+          <p> <b>Enviado por:</b> {{acuseRecibo.emisor}}</p>
+          <p> <b>Para:</b> {{acuseRecibo.recibe}}</p>
+          <p> <b>Atendido por: </b> {{acuseRecibo.receptor}}</p>
+          <p> <b>Fecha y hora de salida:</b> {{acuseRecibo.fecha_envio}}</p>
+          <p> <b>Fecha y hora de llegada:</b> {{acuseRecibo.fecha_llegada}}</p>
+          <p> <b>Descripción: </b>{{acuseRecibo.descripcion}} </p>
+      </div>
+      <div class="firma">
+          <div class="firmem">
+              <img class="imgfirmem" src="{{acuseRecibo.firma_emisor}}" alt="{{acuseRecibo.emisor}}">
+              <p><b>Firma quien envia</b></p>
+          </div>
+          <div class="firmem">
+              <img class="imgfirmem" src="{{acuseRecibo.firma_receptor}}" alt="{{acuseRecibo.receptor}}">
+              <p><b>Firma quien Recibe</b></p>
+          </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Cerrar')">Cerrar</button>
+      <button class="btn btnPilarh" 
+      printSectionId="acuse"
+      [useExistingCss]="true"
+      ngxPrint>Imprimir</button><br>
+    </div>
+  </ng-template>

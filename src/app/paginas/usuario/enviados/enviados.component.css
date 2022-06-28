@@ -110,6 +110,71 @@ tbody{
   width: inherit;
 }
 
+.acuse{
+  border: 2px solid black;
+  margin: 15px;
+  width: 1019px;
+}
+
+.myCustomModalClass .modal-dialog {
+  max-width: 1050px;
+}
+
+.encab{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  align-items: stretch;
+  align-content: stretch;
+  margin-top: 45px;
+}
+
+.year{
+  border-radius: 25px;
+  background-color: #326535;
+  width: 150px;
+  text-align: center;
+  padding-top: 20px;
+}
+
+.firma{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  align-items: stretch;
+  align-content: stretch;
+  margin-top: 25%;
+  position: relative;
+}
+
+.cuerpo{
+  margin-top: 50px;
+  margin-left: 50px;
+}
+
+.firmem{
+  text-align: center;
+}
+
+.imgfirmem{
+  width: 292px;
+  height: 124px;
+  border-bottom: 3px solid black;
+}
+
+.acuse > p{
+  font-size: x-large;
+  margin-top: 35px;
+}
+
+.aceptar{
+  color:blue;
+  background-color: transparent;
+  border: 0;
+}
+
 @media (max-width: 576px) {
   select, option{
     font-size: 10px;

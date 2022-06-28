@@ -21,6 +21,7 @@ import { EnviadosComponent } from './paginas/usuario/enviados/enviados.component
 import { RecibidosComponent } from './paginas/usuario/recibidos/recibidos.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { PasswordComponent } from './paginas/password/password.component';
+import { NgxPrintModule } from 'ngx-print';
 
 
 
@@ -51,7 +52,8 @@ import { PasswordComponent } from './paginas/password/password.component';
     FontAwesomeModule,
     CommonModule,
     AmazingTimePickerModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    NgxPrintModule
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]
