@@ -356,6 +356,7 @@ export class UsuariosComponent implements OnInit {
                 showConfirmButton: false,
                 timer: 1500
               });
+            this.image= [];
             }else{
               Swal.fire({
                 icon: 'error',

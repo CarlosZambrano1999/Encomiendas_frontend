@@ -94,9 +94,11 @@ h2 {
 }
 
 .imgfirmem{
-  width: 292px;
   height: 124px;
-  border-bottom: 3px solid black;
+}
+
+.bordeFirma{
+  border-top: 3px solid black;
 }
 
 .acuse > p{
