@@ -92,7 +92,11 @@ h2 {
   }
 
 }
-
+.descr{
+  white-space: pre-line;
+}.descr{
+  white-space: pre-line;
+}
 @media (min-width: 576px) and (max-width: 768px) {
   option{
     font-size: x-small;

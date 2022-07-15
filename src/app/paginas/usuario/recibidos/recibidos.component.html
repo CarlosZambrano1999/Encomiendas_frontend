@@ -51,10 +51,10 @@
             <td *ngIf="enc.estado=='PENDIENTE'">
               <button class="aceptar" (click)="confirmarEncomienda(enc.id_encomienda)"><u> confirmar</u></button>
             </td>
-            <td *ngIf="enc.estado=='CONFIRMADO'">
+            <td *ngIf="usuario.nombre==enc.receptor && enc.estado=='CONFIRMADO'">
               <button class="aceptar" (click)="verAcuse(enc, modalVerAcuse)"><fa-icon [icon]="faPrint"> </fa-icon> <u> imprimir</u></button>
             </td>
-            <!--td *ngIf="usuario.nombre!=enc.emisor && enc.estado=='CONFIRMADO'"></td-->
+            <td *ngIf="usuario.nombre!==enc.receptor && enc.estado=='CONFIRMADO'"></td>
           </tr>
         </tbody>
       </table>
@@ -96,11 +96,11 @@
       </div>
       <div class="firma">
           <div class="firmem">
-              <img class="imgfirmem" src="{{acuseRecibo.firma_emisor}}" alt="{{acuseRecibo.emisor}}">
+              <img class="imgfirmem" src="{{acuseRecibo.firma_emisor}}" alt="{{acuseRecibo.emisor}}" oncontextmenu="return false"/>
               <p class="bordeFirma"><b>Firma quien envia</b></p>
           </div>
           <div class="firmem">
-              <img class="imgfirmem" src="{{acuseRecibo.firma_receptor}}" alt="{{acuseRecibo.receptor}}">
+              <img class="imgfirmem" src="{{acuseRecibo.firma_receptor}}" alt="{{acuseRecibo.receptor}}" oncontextmenu="return false"/>
               <p class="bordeFirma"><b>Firma quien Recibe</b></p>
           </div>
       </div>

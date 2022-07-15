@@ -34,7 +34,7 @@
         <tbody>
           <tr *ngFor="let enc of encomiendas
                       | paginate: { id: 'foo',
-                      itemsPerPage: 20,
+                      itemsPerPage: 30,
                       currentPage: page } ">
             <th class="cod" scope="row">{{enc.codigo_encomienda}}</th>
             <td>{{enc.envia}}</td>
@@ -47,22 +47,22 @@
             <td  *ngIf="usuario.nombre==enc.emisor && enc.estado!='CONFIRMADO'" title="Editar Encomienda" >
                 <fa-icon  class="trash" [icon]="faPen" (click)="editarEncomienda(enc, modalEditarEncomienda)" > </fa-icon>
             </td>
-            <!--td *ngIf="usuario.nombre!=enc.emisor && enc.estado!='CONFIRMADO'"></td-->
-            <td *ngIf="enc.estado=='CONFIRMADO'">
+            <td *ngIf="usuario.nombre!=enc.emisor && enc.estado!='CONFIRMADO'"></td>
+            <td *ngIf="usuario.nombre==enc.emisor && enc.estado=='CONFIRMADO'">
               <button class="aceptar" (click)="verAcuse(enc, modalVerAcuse)"><fa-icon [icon]="faPrint"> </fa-icon> <u> imprimir</u></button>
             </td>
-            <!--td *ngIf="usuario.nombre!=enc.emisor && enc.estado=='CONFIRMADO'"></td-->
+            <td *ngIf="usuario.nombre!=enc.emisor && enc.estado=='CONFIRMADO'"></td>
           </tr>
         </tbody>
       </table>
-      <pagination-controls *ngIf="encomiendas.length>20" style="display: 'block';"
+      <pagination-controls *ngIf="encomiendas.length>29" style="display: 'block';"
         class = "custom-pagination"
         id="foo"
         (pageChange)="page = ($event)"
         previousLabel="Anterior"
         nextLabel="Siguiente">
       </pagination-controls>
-      <pagination-controls *ngIf="encomiendas.length<=20" style="display: 'none';"
+      <pagination-controls *ngIf="encomiendas.length<=29" style="display: 'none';"
         id="foo"
         (pageChange)="page = ($event)"
         previousLabel="Anterior"
@@ -146,7 +146,7 @@
     </form>
   </div>
   <div class="modal-footer">
-    <button id="cancelar" class="btn btnPilarh2"  (click)="modal.close('Cerrar')">Cancelar</button>
+    <button id="cancelar" class="btn imprimir btnPilarh2"  (click)="modal.close('Cerrar')">Cancelar</button>
     <button [ngClass]="{'disabled': (editEncomienda.invalid || objCompare()), 'enabled': (editEncomienda.valid)  }" id="principal" class="btn btnPilarh"  (click)="confirmarEdicion(editEncomienda.value)" >Confirmar</button><br>
   </div>
 </ng-template>
@@ -177,14 +177,14 @@
               <p class="bordeFirma"><b>Firma quien envia</b></p>
           </div>
           <div class="firmem">
-              <img class="imgfirmem" src="{{acuseRecibo.firma_receptor}}" alt="{{acuseRecibo.receptor}}">
+              <img class="imgfirmem" src="{{acuseRecibo.firma_receptor}}" alt="{{acuseRecibo.receptor}}" oncontextmenu="return false"/>
               <p class="bordeFirma"><b>Firma quien Recibe</b></p>
           </div>
       </div>
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-outline-dark" (click)="modal.close('Cerrar')">Cerrar</button>
-      <button class="btn imprimir btnPilarh" 
+      <button class="btn btnPilarh" 
       printSectionId="acuse"
       [useExistingCss]="true"
       ngxPrint>Imprimir</button><br>

@@ -175,15 +175,17 @@ tbody{
   font-size: x-large;
   margin-top: 35px;
 }
+
+.descr{
+  white-space: pre-line;
+}
+
 .aceptar{
   color:blue;
   background-color: transparent;
   border: 0;
 }
 
-.descr{
-  white-space: pre-line;
-}
 @media (max-width: 576px) {
   select, option{
     font-size: 10px;
