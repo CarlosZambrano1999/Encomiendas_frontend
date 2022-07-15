@@ -74,6 +74,10 @@ h2 {
   color: #A02A2A;
 }
 
+.descr{
+  white-space: pre-line;
+}
+
 @media (max-width: 576px) {
   option{
     font-size: xx-small;

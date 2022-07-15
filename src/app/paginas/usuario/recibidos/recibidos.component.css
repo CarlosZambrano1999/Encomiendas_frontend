@@ -49,6 +49,7 @@ h2 {
   border: 2px solid black;
   margin: 15px;
   width: 1019px;
+  height: 1200px;
 }
 
 .myCustomModalClass .modal-dialog {
@@ -75,18 +76,22 @@ h2 {
 
 .firma{
   display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
   justify-content: space-around;
-  align-items: stretch;
-  align-content: stretch;
-  margin-top: 25%;
-  position: relative;
+  width: 80%;
+  bottom: 10%;
+  left: 30px;
+  position: absolute;
 }
 
 .cuerpo{
   margin-top: 50px;
   margin-left: 50px;
+  font-size: 15px;
+}
+
+.imprimir{
+  background-color: rgb(118, 231, 118);
+  border: 1px solid black;
 }
 
 .firmem{
@@ -104,6 +109,10 @@ h2 {
 .acuse > p{
   font-size: x-large;
   margin-top: 35px;
+}
+
+.descr{
+  white-space: pre-line;
 }
 
 @media(max-width: 576px){

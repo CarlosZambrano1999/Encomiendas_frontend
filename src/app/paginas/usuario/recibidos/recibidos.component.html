@@ -51,10 +51,10 @@
             <td *ngIf="enc.estado=='PENDIENTE'">
               <button class="aceptar" (click)="confirmarEncomienda(enc.id_encomienda)"><u> confirmar</u></button>
             </td>
-            <td *ngIf="usuario.nombre==enc.emisor && enc.estado=='CONFIRMADO'">
+            <td *ngIf="enc.estado=='CONFIRMADO'">
               <button class="aceptar" (click)="verAcuse(enc, modalVerAcuse)"><fa-icon [icon]="faPrint"> </fa-icon> <u> imprimir</u></button>
             </td>
-            <td *ngIf="usuario.nombre!=enc.emisor && enc.estado=='CONFIRMADO'"></td>
+            <!--td *ngIf="usuario.nombre!=enc.emisor && enc.estado=='CONFIRMADO'"></td-->
           </tr>
         </tbody>
       </table>
@@ -92,7 +92,7 @@
           <p> <b>Atendido por: </b> {{acuseRecibo.receptor}}</p>
           <p> <b>Fecha y hora de salida:</b> {{acuseRecibo.fecha_envio}}</p>
           <p> <b>Fecha y hora de llegada:</b> {{acuseRecibo.fecha_llegada}}</p>
-          <p> <b>Descripción: </b>{{acuseRecibo.descripcion}} </p>
+          <p class="descr"> <b>Descripción: </b>{{acuseRecibo.descripcion}} </p>
       </div>
       <div class="firma">
           <div class="firmem">
@@ -107,7 +107,7 @@
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-outline-dark" (click)="modal.close('Cerrar')">Cerrar</button>
-      <button class="btn btnPilarh" 
+      <button class="btn imprimir btnPilarh" 
       printSectionId="acuse"
       [useExistingCss]="true"
       ngxPrint>Imprimir</button><br>
@@ -137,7 +137,7 @@
       <p *ngIf="encom.descripcion_transporte !== null"> <b>Descripción de transporte: </b>{{ encom.descripcion_transporte}}</p>
       <p> <b>Fecha y hora de salida:</b> {{ encom.fecha_envio }} {{ encom.hora_envio }}</p>
       <p> <b>Fecha y hora de llegada:</b> {{ encom.fecha_llegada }} {{ encom.hora_llegada }}</p>
-      <p> <b>Descripción: </b>{{ encom.descripcion }}</p>
+      <p class="descr"> <b>Descripción: </b>{{ encom.descripcion }}</p>
     </div>
   </div>
   <div class="modal-footer">
